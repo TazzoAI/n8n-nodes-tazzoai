@@ -8,8 +8,7 @@ Tazzo.ai is a voice agent platform that enables automated outbound voice calls w
 
 [Installation](#installation)  
 [Operations](#operations)  
-[Credentials](#credentials)  
-[Compatibility](#compatibility)  
+[Credentials](#credentials)   
 [Usage](#usage)  
 [Resources](#resources)  
 
@@ -43,9 +42,6 @@ Before using the node, set up your Tazzo.ai login credentials:
    * **Password** – your Tazzo.ai account password
 * Click **Save**
 
-## Compatibility
-
-*State the minimum n8n version, as well as which versions you test against. You can also include any known version incompatibility issues.*
 
 ## Usage
 
