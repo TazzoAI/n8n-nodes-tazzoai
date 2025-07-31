@@ -9,6 +9,7 @@ import {
 export class TazzoAiApi implements ICredentialType {
 	name = 'tazzoAiApi';
 	displayName = 'Tazzo.ai API';
+	icon = 'file:tazzo.svg' as Icon;
 	documentationUrl = 'https://docs.n8n.io/integrations/creating-nodes';
 
 	properties: INodeProperties[] = [

@@ -1,19 +1,21 @@
 {
   "name": "n8n-nodes-tazzoai",
   "version": "0.1.0",
-  "description": "",
+  "description": "Custom trigger node for Tazzo.ai voice agents.",
   "keywords": [
-    "n8n-community-node-package"
+    "n8n",
+    "n8n-community-node-package",
+    "tazzoai"
   ],
   "license": "MIT",
-  "homepage": "",
+  "homepage": "https://github.com/TazzoAI/n8n-nodes-tazzoai/blob/main/README.md",
   "author": {
-    "name": "",
-    "email": "test@gmail.com"
+    "name": "Legitbytes",
+    "email": "npsingh@legitbytes.com"
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/TazzoAI/n8n-nodes-tazzoai"
   },
   "main": "index.js",
   "scripts": {
@@ -30,19 +32,17 @@
   "n8n": {
     "n8nNodesApiVersion": 1,
     "credentials": [
-      "dist/credentials/ExampleCredentialsApi.credentials.js",
-      "dist/credentials/HttpBinApi.credentials.js"
-    ],
+  "dist/credentials/TazzoAiApi.credentials.js"
+],
     "nodes": [
-      "dist/nodes/ExampleNode/ExampleNode.node.js",
-      "dist/nodes/HttpBin/HttpBin.node.js"
-    ]
+  "dist/nodes/TazzoAi/TazzoAi.node.js"
+]
   },
   "devDependencies": {
     "@typescript-eslint/parser": "~5.45",
     "eslint-plugin-n8n-nodes-base": "^1.11.0",
     "gulp": "^4.0.2",
-    "n8n-workflow": "*",
+    "n8n-workflow": "*",  
     "prettier": "^2.7.1",
     "typescript": "~4.8.4"
   },

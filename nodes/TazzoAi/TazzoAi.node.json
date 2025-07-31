@@ -12,7 +12,7 @@
   "outputs": ["main"],
   "credentials": [
     {
-      "name": "TazzoAiApi",
+      "name": "tazzoAiApi",
       "required": true
     }
   ],
