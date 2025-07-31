@@ -1,6 +1,10 @@
-import { INodeType, INodeTypeDescription, IExecuteFunctions } from 'n8n-workflow';
-
-import { NodeApiError } from 'n8n-workflow';
+import {
+	INodeType,
+	INodeTypeDescription,
+	IExecuteFunctions,
+	INodeExecutionData,
+	NodeApiError,
+} from 'n8n-workflow';
 
 export class TazzoAi implements INodeType {
 	description: INodeTypeDescription = {
@@ -37,14 +41,14 @@ export class TazzoAi implements INodeType {
 		],
 	};
 
-	async execute(this: IExecuteFunctions) {
+	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		const items = this.getInputData();
+		const returnData: INodeExecutionData[] = [];
 
-		const returnData = [];
+		const credentials = await this.getCredentials('tazzoAiApi');
+		const email = credentials.email as string;
+		const password = credentials.password as string;
 
-		const credentials = await this.getCredentials('tazzoAiApi', 1);
-		const email = credentials?.email as string;
-		const password = credentials?.password as string;
 		this.logger.info(`TazzoAi credentials: ${JSON.stringify(credentials)}`);
 
 		for (let i = 0; i < items.length; i++) {
@@ -65,7 +69,15 @@ export class TazzoAi implements INodeType {
 				const token = loginResponse?.data?.token;
 				this.logger.info(`TazzoAi token: ${token}`);
 				this.logger.info(`TazzoAi login response: ${JSON.stringify(loginResponse)}`);
-				if (!token) throw new Error('No token found in login response');
+				if (!token) {
+					throw new NodeApiError(
+						this.getNode(),
+						{
+							message: 'No token found in login response',
+						},
+						{ itemIndex: i },
+					);
+				}
 
 				const triggerResponse = await this.helpers.request({
 					method: 'POST',
@@ -79,6 +91,7 @@ export class TazzoAi implements INodeType {
 					},
 					json: true,
 				});
+
 				this.logger.info(
 					`Preparing to trigger call... agentId: ${agentId}, contactNumber: ${contactNumber}`,
 				);
@@ -92,12 +105,10 @@ export class TazzoAi implements INodeType {
 				});
 			} catch (error) {
 				this.logger.error(`Error triggering call for item ${i}: ${JSON.stringify(error)}`);
-				throw new NodeApiError(this.getNode(), error as any, {
-					itemIndex: i,
-				});
+				throw new NodeApiError(this.getNode(), error as any, { itemIndex: i });
 			}
 		}
 
-		return this.prepareOutputData(returnData);
+		return [returnData];
 	}
 }
