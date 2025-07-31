@@ -1,0 +1,33 @@
+
+{
+  "name": "TazzoAi",
+  "displayName": "Tazzo AI Trigger",
+  "group": ["trigger"],
+  "version": 1,
+  "description": "Trigger for incoming Tazzo AI events",
+  "defaults": {
+    "name": "Tazzo AI Trigger"
+  },
+  "inputs": [],
+  "outputs": ["main"],
+  "credentials": [
+    {
+      "name": "TazzoAiApi",
+      "required": true
+    }
+  ],
+  "properties": [
+    {
+      "displayName": "Agent ID",
+      "name": "agentId",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "displayName": "Contact Number",
+      "name": "contactNumber",
+      "type": "string",
+      "default": ""
+    }
+  ]
+}
