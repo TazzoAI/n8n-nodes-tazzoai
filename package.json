@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-tazzoai",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "description": "Custom trigger node for Tazzo.ai voice agents.",
   "keywords": [
     "n8n",
@@ -17,7 +17,8 @@
     "type": "git",
     "url": "https://github.com/TazzoAI/n8n-nodes-tazzoai"
   },
-  "main": "index.js",
+  "main": "dist/index.js",
+
   "scripts": {
     "build": "tsc && gulp build:icons",
     "dev": "tsc --watch",
@@ -27,7 +28,9 @@
 "prepublishOnly": "npm run build && npm run lint -c .eslintrc.prepublish.js"
   },
   "files": [
-    "dist"
+    "dist",
+     "nodes",
+  "credentials"
   ],
   "n8n": {
     "n8nNodesApiVersion": 1,

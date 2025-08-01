@@ -1,33 +1,84 @@
 import {
+
 	ICredentialType,
+
 	INodeProperties,
-	NodePropertyTypes,
+
+	ICredentialTestRequest,
 	Icon,
+
 } from 'n8n-workflow';
-
+ 
 export class TazzoAiApi implements ICredentialType {
-	name: string = 'tazzoAiApi';
-	displayName: string = 'Tazzo.ai API';
-	icon: Icon = 'file:tazzo.svg';
-	documentationUrl: string = 'https://docs.n8n.io/integrations/creating-nodes';
 
+	name = 'tazzoAiApi';
+
+	displayName = 'Tazzo.ai API';
+
+	icon = 'file:tazzo.svg' as Icon;
+
+	documentationUrl = 'https://github.com/TazzoAI/n8n-nodes-tazzoai/blob/main/README.md';
+ 
 	properties: INodeProperties[] = [
+
 		{
+
 			displayName: 'Email',
+
 			name: 'email',
+
 			type: 'string',
+
 			default: '',
+
 		},
+
 		{
+
 			displayName: 'Password',
+
 			name: 'password',
+
 			type: 'string',
+
 			typeOptions: {
+
 				password: true,
+
 			},
+
 			default: '',
+
 		},
+
 	];
+ 
+	test: ICredentialTestRequest = {
+
+		request: {
+
+			method: 'POST',
+
+			url: 'https://api.tazzo.ai/auth/login',
+
+			body: {
+
+				email: '={{$credentials.email}}',
+
+				password: '={{$credentials.password}}',
+
+			},
+
+			headers: {
+
+				'Content-Type': 'application/json',
+
+			},
+
+		},
+
+	};
+
 }
 
-export default TazzoAiApi;
+ 
