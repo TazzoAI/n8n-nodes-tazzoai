@@ -27,16 +27,52 @@ export class TazzoAi implements INodeType {
 		],
 		properties: [
 			{
+				displayName: 'Resource',
+				name: 'resource',
+				type: 'options',
+				options: [
+					{
+						name: 'Call',
+						value: 'call',
+					},
+				],
+				default: 'call',
+			},
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				options: [
+					{
+						name: 'Trigger',
+						value: 'trigger',
+					},
+				],
+				default: 'trigger',
+			},
+			{
 				displayName: 'Agent ID',
 				name: 'agentId',
 				type: 'string',
 				default: '',
+				displayOptions: {
+					show: {
+						resource: ['call'],
+						operation: ['trigger'],
+					},
+				},
 			},
 			{
 				displayName: 'Contact Number',
 				name: 'contactNumber',
 				type: 'string',
 				default: '',
+				displayOptions: {
+					show: {
+						resource: ['call'],
+						operation: ['trigger'],
+					},
+				},
 			},
 		],
 	};
@@ -49,26 +85,27 @@ export class TazzoAi implements INodeType {
 		const email = credentials.email as string;
 		const password = credentials.password as string;
 
-		this.logger.info(`TazzoAi credentials: ${JSON.stringify(credentials)}`);
-
 		for (let i = 0; i < items.length; i++) {
 			const agentId = this.getNodeParameter('agentId', i) as string;
 			const contactNumber = this.getNodeParameter('contactNumber', i) as string;
 
 			try {
-				const loginResponse = await this.helpers.request({
-					method: 'POST',
-					url: 'https://api.tazzo.ai/auth/login',
-					body: {
-						email,
-						password,
+				const loginResponse = await this.helpers.httpRequestWithAuthentication.call(
+					this,
+					'tazzoAiApi',
+					{
+						method: 'POST',
+						url: 'https://api.tazzo.ai/auth/login',
+						body: {
+							email,
+							password,
+						},
+						json: true,
 					},
-					json: true,
-				});
+				);
 
 				const token = loginResponse?.data?.token;
-				this.logger.info(`TazzoAi token: ${token}`);
-				this.logger.info(`TazzoAi login response: ${JSON.stringify(loginResponse)}`);
+
 				if (!token) {
 					throw new NodeApiError(
 						this.getNode(),
@@ -79,32 +116,37 @@ export class TazzoAi implements INodeType {
 					);
 				}
 
-				const triggerResponse = await this.helpers.request({
-					method: 'POST',
-					url: 'https://originate.tazzo.ai/',
-					headers: {
-						Authorization: `Bearer ${token}`,
+				const triggerResponse = await this.helpers.httpRequestWithAuthentication.call(
+					this,
+					'tazzoAiApi',
+					{
+						method: 'POST',
+						url: 'https://originate.tazzo.ai/',
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+						body: {
+							agentId,
+							contactNumber,
+						},
+						json: true,
 					},
-					body: {
-						agentId,
-						contactNumber,
-					},
-					json: true,
-				});
-
-				this.logger.info(
-					`Preparing to trigger call... agentId: ${agentId}, contactNumber: ${contactNumber}`,
 				);
-				this.logger.info(
-					`Trigger request headers: ${JSON.stringify({ Authorization: `Bearer ${token}` })}`,
-				);
-				this.logger.info(`Trigger request body: ${JSON.stringify({ agentId, contactNumber })}`);
 
 				returnData.push({
 					json: triggerResponse,
+					pairedItem: { item: i },
 				});
 			} catch (error) {
-				this.logger.error(`Error triggering call for item ${i}: ${JSON.stringify(error)}`);
+
+				if (this.continueOnFail()) {
+					returnData.push({
+						json: { error: (error as Error).message },
+						pairedItem: { item: i },
+					});
+					continue;
+				}
+
 				throw new NodeApiError(this.getNode(), error as any, { itemIndex: i });
 			}
 		}
