@@ -30,6 +30,7 @@ export class TazzoAi implements INodeType {
 				displayName: 'Resource',
 				name: 'resource',
 				type: 'options',
+				noDataExpression: true,
 				options: [
 					{
 						name: 'Call',
@@ -42,6 +43,7 @@ export class TazzoAi implements INodeType {
 				displayName: 'Operation',
 				name: 'operation',
 				type: 'options',
+				noDataExpression: true,
 				options: [
 					{
 						name: 'Trigger',
@@ -49,6 +51,25 @@ export class TazzoAi implements INodeType {
 					},
 				],
 				default: 'trigger',
+			},
+			{
+				displayName: 'Action',
+				name: 'action',
+				type: 'options',
+				noDataExpression: true,
+				options: [
+					{
+						name: 'Start Call',
+						value: 'start',
+					},
+				],
+				default: 'start',
+				displayOptions: {
+					show: {
+						resource: ['call'],
+						operation: ['trigger'],
+					},
+				},
 			},
 			{
 				displayName: 'Agent ID',
@@ -62,6 +83,7 @@ export class TazzoAi implements INodeType {
 					},
 				},
 			},
+
 			{
 				displayName: 'Contact Number',
 				name: 'contactNumber',
@@ -74,6 +96,7 @@ export class TazzoAi implements INodeType {
 					},
 				},
 			},
+			
 		],
 	};
 
@@ -138,7 +161,6 @@ export class TazzoAi implements INodeType {
 					pairedItem: { item: i },
 				});
 			} catch (error) {
-
 				if (this.continueOnFail()) {
 					returnData.push({
 						json: { error: (error as Error).message },
