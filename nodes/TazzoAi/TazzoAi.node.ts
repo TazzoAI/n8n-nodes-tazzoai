@@ -48,6 +48,7 @@ export class TazzoAi implements INodeType {
 					{
 						name: 'Trigger',
 						value: 'trigger',
+						action: 'Start a call'
 					},
 				],
 				default: 'trigger',
@@ -61,6 +62,8 @@ export class TazzoAi implements INodeType {
 					{
 						name: 'Start Call',
 						value: 'start',
+						action: 'Start a call'
+						
 					},
 				],
 				default: 'start',
@@ -118,7 +121,7 @@ export class TazzoAi implements INodeType {
 					'tazzoAiApi',
 					{
 						method: 'POST',
-						url: 'https://api.tazzo.ai/auth/login',
+						url: 'https://api-express.tazzo.ai/auth/login',
 						body: {
 							email,
 							password,
