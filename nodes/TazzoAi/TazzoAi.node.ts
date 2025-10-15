@@ -48,7 +48,7 @@ export class TazzoAi implements INodeType {
 					{
 						name: 'Trigger',
 						value: 'trigger',
-						action: 'Start a call'
+						action: 'Start a call',
 					},
 				],
 				default: 'trigger',
@@ -62,8 +62,7 @@ export class TazzoAi implements INodeType {
 					{
 						name: 'Start Call',
 						value: 'start',
-						action: 'Start a call'
-						
+						action: 'Start a call',
 					},
 				],
 				default: 'start',
@@ -99,7 +98,6 @@ export class TazzoAi implements INodeType {
 					},
 				},
 			},
-			
 		],
 	};
 

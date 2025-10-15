@@ -59,7 +59,7 @@ export class TazzoAiApi implements ICredentialType {
 
 			method: 'POST',
 
-			url: 'https://api.tazzo.ai/auth/login',
+			url: 'https://api-express.tazzo.ai/auth/login',
 
 			body: {
 
