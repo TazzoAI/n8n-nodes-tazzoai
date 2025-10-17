@@ -4,7 +4,7 @@ This is an n8n community node. It lets you use Tazzo.ai in your n8n workflows.
 
 Tazzo.ai is a voice agent platform that enables automated outbound voice calls with AI-powered conversational agents.
 
-[n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
+[n8n](https://n8n.io/) is a fair-code licensed workflow automation platform.
 
 [Installation](#installation)  
 [Operations](#operations)  
@@ -82,7 +82,7 @@ Before using the node, set up your Tazzo.ai login credentials:
 ## Resources
 
 * [n8n community nodes documentation](https://docs.n8n.io/integrations/#community-nodes)
-* [Source Code](https://github.com/legitbytes/n8n-nodes-tazzoai)
+* [Source Code](https://github.com/TazzoAI/n8n-nodes-tazzoai)
 * [npm Package](https://www.npmjs.com/package/n8n-nodes-tazzoai)
 
 **Maintainer**: Legitbytes  
