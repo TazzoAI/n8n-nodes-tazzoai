@@ -98,6 +98,19 @@ export class TazzoAi implements INodeType {
 					},
 				},
 			},
+			{
+				displayName: 'Personalization',
+				name: 'personalization',
+				type: 'json',
+				default: '{}',
+				description: 'Optional personalization data to pass to the call',
+				displayOptions: {
+					show: {
+						resource: ['call'],
+						operation: ['trigger'],
+					},
+				},
+			},
 		],
 	};
 
@@ -112,6 +125,8 @@ export class TazzoAi implements INodeType {
 		for (let i = 0; i < items.length; i++) {
 			const agentId = this.getNodeParameter('agentId', i) as string;
 			const contactNumber = this.getNodeParameter('contactNumber', i) as string;
+			const personalization = this.getNodeParameter('personalization', i, {}) as object;
+
 
 			try {
 				const loginResponse = await this.helpers.httpRequestWithAuthentication.call(
@@ -152,6 +167,7 @@ export class TazzoAi implements INodeType {
 						body: {
 							agentId,
 							contactNumber,
+							personalization,
 						},
 						json: true,
 					},
