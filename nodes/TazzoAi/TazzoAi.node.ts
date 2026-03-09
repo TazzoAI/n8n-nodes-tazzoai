@@ -134,7 +134,7 @@ export class TazzoAi implements INodeType {
 					'tazzoAiApi',
 					{
 						method: 'POST',
-						url: 'https://api-express.tazzo.ai/auth/login',
+						url: 'https://api.tazzo.ai/auth/login',
 						body: {
 							email,
 							password,
@@ -160,7 +160,7 @@ export class TazzoAi implements INodeType {
 					'tazzoAiApi',
 					{
 						method: 'POST',
-						url: 'https://originate.tazzo.ai/',
+						url: 'https://control.tazzo.ai/',
 						headers: {
 							Authorization: `Bearer ${token}`,
 						},
