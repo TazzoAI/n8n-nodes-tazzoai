@@ -99,6 +99,29 @@ export class TazzoAi implements INodeType {
 				},
 			},
 			{
+				displayName: 'Base URL',
+				name: 'baseUrl',
+				type: 'options',
+				options: [
+					{
+						name: 'App',
+						value: 'app',
+					},
+					{
+						name: 'Eurus',
+						value: 'eurus',
+					},
+				],
+				default: 'app',
+				description: 'Select the environment to use',
+				displayOptions: {
+					show: {
+						resource: ['call'],
+						operation: ['trigger'],
+					},
+				},
+			},
+			{
 				displayName: 'Personalization',
 				name: 'personalization',
 				type: 'json',
@@ -126,7 +149,15 @@ export class TazzoAi implements INodeType {
 			const agentId = this.getNodeParameter('agentId', i) as string;
 			const contactNumber = this.getNodeParameter('contactNumber', i) as string;
 			const personalization = this.getNodeParameter('personalization', i, {}) as object;
+			const baseUrl = this.getNodeParameter('baseUrl', i, 'app') as string;
 
+			const authUrl = baseUrl === 'eurus'
+				? 'https://api-eurus.tazzo.ai/auth/login'
+				: 'https://api.tazzo.ai/auth/login';
+
+			const triggerUrl = baseUrl === 'eurus'
+				? 'https://control-eurus.tazzo.ai/'
+				: 'https://control.tazzo.ai/';
 
 			try {
 				const loginResponse = await this.helpers.httpRequestWithAuthentication.call(
@@ -134,7 +165,7 @@ export class TazzoAi implements INodeType {
 					'tazzoAiApi',
 					{
 						method: 'POST',
-						url: 'https://api.tazzo.ai/auth/login',
+						url: authUrl,
 						body: {
 							email,
 							password,
@@ -160,7 +191,7 @@ export class TazzoAi implements INodeType {
 					'tazzoAiApi',
 					{
 						method: 'POST',
-						url: 'https://control.tazzo.ai/',
+						url: triggerUrl,
 						headers: {
 							Authorization: `Bearer ${token}`,
 						},
